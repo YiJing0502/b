@@ -3,6 +3,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
 
 // optional的寫法
 export default {
@@ -23,12 +24,29 @@ export default {
   methods: {
     submitData() {
       // 驗證
-      // inertia method to submit
+      // [inertia] -method- to submit
       router.visit(route('product.store'), {
         method: 'post',
         data: this.formData,
         // 新增完，停留，資料留存
         preserveState: true,
+        onSuccess: (page) => {
+          console.log(page);
+          console.log(page.props.flash.message.rt_code);
+          if (page.props.flash.message.rt_code === 1) {
+            Swal.fire({
+              title: '新增成功！',
+              showDenyButton: true,
+              confirmButtonText: '回列表',
+              denyButtonText: '取消',
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                router.get(route('product.list'));
+              }
+            });
+          }
+        },
       });
     },
   },

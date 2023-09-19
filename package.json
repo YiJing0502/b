@@ -28,6 +28,7 @@
         "vue": "^3.3.4"
     },
     "dependencies": {
-        "pinia": "^2.1.6"
+        "pinia": "^2.1.6",
+        "sweetalert2": "^11.7.28"
     }
 }
