@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 class ProductController extends Controller
 {
-    //
+    // 後台＿產品列表頁
     public function index() {
         $product = Product::orderBy('id', 'desc')->get()->map(function ($item) {
             // 資料多塞 timeFormat
@@ -17,9 +17,11 @@ class ProductController extends Controller
         });
         return Inertia::render('Backend/Product/Index', ['response' => rtFormat($product)]);
     }
+    // 後台＿新增產品頁
     public function create() {
         return Inertia::render('Backend/Product/Create');
     }
+    // 後台＿新增產品頁＿儲存新增
     public function store(Request $request) {
         $request->validate([
             'name' => 'required|max:255',

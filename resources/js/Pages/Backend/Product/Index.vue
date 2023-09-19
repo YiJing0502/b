@@ -45,6 +45,7 @@ export default {
               <th>產品價格</th>
               <th>公開選擇</th>
               <th>描述</th>
+              <th>操作</th>
             </thead>
             <tbody>
               <tr v-for="(item, index) in response.rt_data" :key="item.id">
@@ -55,6 +56,10 @@ export default {
                 <td>${{ item.price }}</td>
                 <td>{{ isPublic(item.public) }}</td>
                 <td>{{ item.desc }}</td>
+                <td>
+                  <button type="button" class="mr-4">編輯</button>
+                  <button type="button">刪除</button>
+                </td>
               </tr>
             </tbody>
           </table>
