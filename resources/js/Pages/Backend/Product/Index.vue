@@ -57,7 +57,9 @@ export default {
                 <td>{{ isPublic(item.public) }}</td>
                 <td>{{ item.desc }}</td>
                 <td>
-                  <button type="button" class="mr-4">編輯</button>
+                  <Link :href="route('product.edit', { id: item.id })">
+                    <button type="button" class="mr-4">編輯</button>
+                  </Link>
                   <button type="button">刪除</button>
                 </td>
               </tr>

@@ -55,12 +55,12 @@ export default {
 
 <!-- 頁面 -->
 <template>
-  <Head title="Product-Create" />
+  <Head title="Product-Edit" />
 
   <AuthenticatedLayout>
     <template #header>
       <div class="">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Product/Create</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Product/Edit</h2>
 
       </div>
     </template>
@@ -92,9 +92,9 @@ export default {
           <div class="flex gap-3 mx-auto mt-2">
             <!-- 內部Link 外網a -->
             <Link :href="route('product.list')">
-              <button type="button" class="btn">取消新增</button>
+              <button type="button" class="btn">取消編輯</button>
             </Link>
-            <button type="submit" class="btn">新增產品</button>
+            <button type="submit" class="btn">儲存編輯</button>
           </div>
         </form>
       </div>

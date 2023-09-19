@@ -39,4 +39,19 @@ class ProductController extends Controller
 
         return back()->with(['message' => rtFormat($product)]);
     }
+    // 後台＿編輯產品頁
+    public function edit($id) {
+        // 找到特定一支產品
+        $product = Product::find($id);
+        // 回傳頁面、產品資訊
+        return Inertia::render('Backend/Product/Edit', ['response' => rtFormat($product)]);
+    }
+    // 後台＿編輯產品頁_儲存編輯
+    public function update() {
+
+    }
+    // 後台＿刪除產品
+    public function delete() {
+
+    }
 }
