@@ -40,6 +40,7 @@ export default {
           <table class="w-full border-black border-2">
             <thead>
               <th>#</th>
+              <th>建立時間</th>
               <th>產品名稱</th>
               <th>產品價格</th>
               <th>公開選擇</th>
@@ -49,6 +50,7 @@ export default {
               <tr v-for="(item, index) in response.rt_data" :key="item.id">
                 <!-- :key 新增資料生成確認 -->
                 <td>{{ index + 1 }}</td>
+                <td>{{ item.timeFormat }}</td>
                 <td>{{ item.name }}</td>
                 <td>${{ item.price }}</td>
                 <td>{{ isPublic(item.public) }}</td>
