@@ -7,7 +7,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 // optional的寫法
 export default {
-  component: {
+  components: {
     ApplicationLogo,
     Dropdown,
     DropdownLink,

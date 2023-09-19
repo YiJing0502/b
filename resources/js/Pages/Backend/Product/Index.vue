@@ -2,9 +2,9 @@
 <script>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-
+// optional的寫法
 export default {
-  component: {
+  components: {
     AuthenticatedLayout,
     Head,
   },
@@ -13,11 +13,11 @@ export default {
 
 <!-- 頁面 -->
 <template>
-  <Head title="product" />
+  <Head title="Product" />
 
   <AuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight">Product</h2>
     </template>
 
     <div class="py-12">
@@ -32,6 +32,4 @@ export default {
 
 <!-- style -->
 <style lang="scss" scoped>
-  #product {
-  }
 </style>
