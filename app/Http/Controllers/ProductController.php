@@ -10,7 +10,12 @@ class ProductController extends Controller
 {
     //
     public function index() {
-        return Inertia::render('Backend/Product/Index');
+        $product = Product::orderBy('id', 'desc')->get()->map(function ($item) {
+            // 資料多塞 timeFormat
+            $item->timeFormat = $item->created_at->format('Y/m/d');
+            return $item;
+        });
+        return Inertia::render('Backend/Product/Index', ['response' => rtFormat($product)]);
     }
     public function create() {
         return Inertia::render('Backend/Product/Create');
