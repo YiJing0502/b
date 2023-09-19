@@ -2,6 +2,8 @@
 <script>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3';
+
 // optional的寫法
 export default {
   components: {
@@ -20,7 +22,14 @@ export default {
   },
   methods: {
     submitData() {
-      console.log(123);
+      // 驗證
+      // inertia method to submit
+      router.visit(route('product.store'), {
+        method: 'post',
+        data: this.formData,
+        // 新增完，停留，資料留存
+        preserveState: true,
+      });
     },
   },
 };
@@ -46,9 +55,9 @@ export default {
         </label>
         <label>
           商品價格：
-          <input v-model="formData.price" type="number" name="price" required>
+          <input v-model="formData.price" type="number" name="price" min="0" required>
         </label>
-        <div class="flex">
+        <div class="flex gap-3">
           <label>
             商品公開：
             <input v-model="formData.public" type="radio" name="public" value="1" required>公開
@@ -61,7 +70,7 @@ export default {
           商品描述：
           <input v-model="formData.desc" type="text" name="desc" required>
         </label>
-        <div class="flex gap-4">
+        <div class="flex gap-3 mx-auto mt-2">
           <!-- 內部Link 外網a -->
           <Link :href="route('product.list')">
             <button type="button" class="btn">取消新增</button>

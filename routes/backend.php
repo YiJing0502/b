@@ -11,4 +11,5 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
     // 產品列表
     Route::get('/product', [ProductController::class, 'index'])->name('product.list');
     Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+    Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
 });

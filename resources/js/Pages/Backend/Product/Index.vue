@@ -17,11 +17,11 @@ export default {
 
   <AuthenticatedLayout>
     <template #header>
-      <div class="">
+      <div class="flex justify-between">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Product</h2>
         <!-- 內部Link 外網a -->
         <Link :href="route('product.create')">
-          <button type="button" class="font-semibold text-xl text-gray-800 leading-tight border-black p-2 rounded-sm border-2	">新增商品</button>
+          <button type="button" class="font-semibold text-xl text-gray-800 leading-tight border-black p-2 rounded-sm border-2">新增商品</button>
         </Link>
       </div>
     </template>
