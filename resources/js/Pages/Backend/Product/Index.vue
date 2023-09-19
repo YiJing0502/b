@@ -17,7 +17,13 @@ export default {
 
   <AuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">Product</h2>
+      <div class="">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Product</h2>
+        <!-- 內部Link 外網a -->
+        <Link :href="route('product.create')">
+          <button type="button" class="font-semibold text-xl text-gray-800 leading-tight border-black p-2 rounded-sm border-2	">新增商品</button>
+        </Link>
+      </div>
     </template>
 
     <div class="py-12">

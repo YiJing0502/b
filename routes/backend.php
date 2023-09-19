@@ -10,4 +10,5 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
     // 產品列表
     Route::get('/product', [ProductController::class, 'index'])->name('product.list');
+    Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
 });
