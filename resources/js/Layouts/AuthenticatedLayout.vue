@@ -20,6 +20,19 @@ export default {
       showingNavigationDropdown: false,
     };
   },
+  mounted() {
+    console.log();
+  },
+  methods: {
+    /**
+     * 判斷現在是否在urlName的路由
+     * @param {string} urlName 路由名稱
+     */
+    currentUrl(urlName = '') {
+      if (urlName === '') return;
+      return route().current(urlName);
+    },
+  },
 };
 </script>
 
@@ -40,10 +53,10 @@ export default {
 
               <!-- Navigation Links -->
               <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                <NavLink :href="route('dashboard')" :active="currentUrl('dashboard')">
                   Dashboard
                 </NavLink>
-                <NavLink :href="route('product.list')" :active="route().current('product.list')">
+                <NavLink :href="route('product.list')" :active="currentUrl('product.list')">
                   Product
                 </NavLink>
               </div>
@@ -100,7 +113,7 @@ export default {
         <!-- Responsive Navigation Menu -->
         <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }" class="sm:hidden">
           <div class="pt-2 pb-3 space-y-1">
-            <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+            <ResponsiveNavLink :href="route('dashboard')" :active="currentUrl('dashboard')">
               Dashboard
             </ResponsiveNavLink>
           </div>

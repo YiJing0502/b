@@ -8,5 +8,6 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', function () {
         return Inertia::render('Backend/Dashboard');
     })->name('dashboard');
+    // 產品列表
     Route::get('/product', [ProductController::class, 'index'])->name('product.list');
 });
