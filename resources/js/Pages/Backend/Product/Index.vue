@@ -12,6 +12,7 @@ export default {
     response: Object,
   },
   methods: {
+    // 顯示公開與非公開
     isPublic(num = 0) {
       if (![1, 2].includes(num)) return '';
       return num === 1 ? '公開' : '非公開';
@@ -60,7 +61,7 @@ export default {
                   <Link :href="route('product.edit', { id: item.id })">
                     <button type="button" class="mr-4">編輯</button>
                   </Link>
-                  <button type="button">刪除</button>
+                  <button type="button" @click="deleteProduct()">刪除</button>
                 </td>
               </tr>
             </tbody>
