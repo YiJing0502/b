@@ -2,8 +2,11 @@
 export default {
   props: {
     response: {
+      //  (必)
       type: Object,
+      //  (選)可接可不接response
       required: false,
+      //  (選)response預設值為空物件
       default: () => ({}),
     },
   },
