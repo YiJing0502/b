@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Product
- * 
+ *
  * @property int $id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -36,6 +36,7 @@ class Product extends Model
         'name',
         'price',
         'public',
-        'desc'
+        'desc',
+        'image_path',
     ];
 }

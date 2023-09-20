@@ -63,6 +63,7 @@ export default {
           <table class="w-full border-black border-2">
             <thead>
               <th>#</th>
+              <th>商品圖片</th>
               <th>建立時間</th>
               <th>產品名稱</th>
               <th>產品價格</th>
@@ -73,6 +74,7 @@ export default {
             <tbody>
               <tr v-for="(item, index) in response.rt_data" :key="item.id">
                 <!-- :key 新增資料生成確認 -->
+                <td><img :src="item.image_path" alt=""></td>
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.timeFormat }}</td>
                 <td>{{ item.name }}</td>

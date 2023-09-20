@@ -28,13 +28,15 @@ class ProductController extends Controller
             'price' => 'required|min:0',
             'public' => 'required|numeric',
             'desc' => 'required|max:255',
+            'image' => 'required|string',
         ]);
-        // dd($request->all());
+        dd($request->all());
         $product=Product::create([
             'name' => $request->name,
             'price' => $request->price,
             'public' => $request->public,
             'desc' => $request->desc,
+            'image_path' => $this->fileService->base64Upload($request->image, 'product'),
         ]);
 
         return back()->with(['message' => rtFormat($product)]);

@@ -18,6 +18,7 @@ export default {
         price: '',
         public: '',
         desc: '',
+        image: '',
       },
     };
   },
@@ -48,6 +49,24 @@ export default {
           }
         },
       });
+    },
+    uploadeImage(event) {
+      // 1拿掉呼叫的小括號，這邊寫event
+      // 2呼叫(event) => uploadeImage
+    //   console.log(event.target.files[0]);
+      const { formData } = this;
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = function () {
+        console.log(reader.result);
+        formData.image = reader.result;
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+      };
+
+    //   let file = document.querySelector('#files > input[type="file"]').files[0];
+    //   getBase64(file); // prints the base64 string
     },
   },
 };
@@ -89,6 +108,15 @@ export default {
             商品描述：
             <input v-model="formData.desc" type="text" name="desc" required>
           </label>
+          <label>
+            商品照片：
+            <!-- 我們真正接收的 -->
+            <input v-model="formData.image" type="hidden">
+            <!-- 使用者按的，用fun轉base64-[file to base64 js] -->
+            <input type="file" name="image" required @change="(event) => uploadeImage(event)">
+            <div v-if="!formData.image" class="my-image add-image">+</div>
+            <img v-else :src="formData.image" alt="" width="100" class="my-image">
+          </label>
           <div class="flex gap-3 mx-auto mt-2">
             <!-- 內部Link 外網a -->
             <Link :href="route('product.list')">
@@ -111,6 +139,12 @@ export default {
     }
     .btn {
         @apply font-semibold text-xl text-gray-800 leading-tight border-black p-2 rounded-sm border-2;
+    }
+    .my-image {
+        @apply border-2 w-[200px] aspect-[4/3] object-cover
+    }
+    .add-image {
+        @apply flex justify-center items-center cursor-pointer text-[48px];
     }
 }
 </style>
