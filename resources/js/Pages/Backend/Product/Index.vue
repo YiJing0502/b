@@ -10,6 +10,7 @@ export default {
     Head,
   },
   props: {
+    // 有傳東西就要寫
     response: Object,
   },
   methods: {
