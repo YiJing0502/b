@@ -74,8 +74,8 @@ export default {
             <tbody>
               <tr v-for="(item, index) in response.rt_data" :key="item.id">
                 <!-- :key 新增資料生成確認 -->
-                <td><img :src="item.image_path" alt=""></td>
                 <td>{{ index + 1 }}</td>
+                <td><img :src="item.image_path" alt="商品圖片" class="" width="100"></td>
                 <td>{{ item.timeFormat }}</td>
                 <td>{{ item.name }}</td>
                 <td>${{ item.price }}</td>

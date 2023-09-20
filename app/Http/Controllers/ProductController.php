@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Services\FileService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProductController extends Controller
 {
+    // 解構fileService
+    public function __construct(protected FileService $fileService)
+    {
+    }
     // 後台＿產品列表頁
     public function index() {
         $product = Product::orderBy('id', 'desc')->get()->map(function ($item) {
@@ -30,7 +35,7 @@ class ProductController extends Controller
             'desc' => 'required|max:255',
             'image' => 'required|string',
         ]);
-        dd($request->all());
+        // dd($request->all());
         $product=Product::create([
             'name' => $request->name,
             'price' => $request->price,
@@ -90,7 +95,12 @@ class ProductController extends Controller
             'id' => 'required|exists:products,id'
         ]);
         // dd($request->all());
-        $product = Product::find($request->id)->delete();
+        // 先取得資料來源
+        $product = Product::find($request->id);
+        // 刪除圖片檔案(因為有檔案要先刪除，不然資料刪除後找不到圖片路徑)
+        $this->fileService->deleteUpload($product->image_path);
+        // 刪除資料
+        $product->delete();
         // 不渲染只傳資料
         return back()->with(['message' => rtFormat($product)]);
     }
