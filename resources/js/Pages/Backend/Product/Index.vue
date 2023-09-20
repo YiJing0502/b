@@ -17,6 +17,9 @@ export default {
       if (![1, 2].includes(num)) return '';
       return num === 1 ? '公開' : '非公開';
     },
+    deleteProduct(id) {
+      console.log(id);
+    },
   },
 };
 </script>
@@ -61,7 +64,7 @@ export default {
                   <Link :href="route('product.edit', { id: item.id })">
                     <button type="button" class="mr-4">編輯</button>
                   </Link>
-                  <button type="button" @click="deleteProduct()">刪除</button>
+                  <button type="button" @click="deleteProduct(item.id)">刪除</button>
                 </td>
               </tr>
             </tbody>
