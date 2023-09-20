@@ -1,5 +1,10 @@
 <script>
+import ProductCard from '@/Components/Card/ProductCard.vue';
+
 export default {
+  components: {
+    ProductCard,
+  },
   props: {
     response: {
       //  (必)
@@ -28,21 +33,12 @@ export default {
       <Link :href="route('dashboard')" class="btn-base">登入</Link>
     </div>
     <div class="product">
-      <div v-for="item in response.rt_data ?? []" :key="item.id" class="card">
+      <ProductCard v-for="item in response.rt_data ?? []" :key="item.id" :product-info="item"></ProductCard>
+      <!-- <div v-for="item in response.rt_data ?? []" :key="item.id" class="card">
         <p>商品名稱：{{ item.name }}</p>
         <p>商品價格：{{ item.price }}</p>
         <p>商品描述：{{ item.desc }}</p>
-      </div>
-      <div class="card">
-        <p>商品名稱：</p>
-        <p>商品價格：</p>
-        <p>商品描述：</p>
-      </div>
-      <div class="card">
-        <p>商品名稱：</p>
-        <p>商品價格：</p>
-        <p>商品描述：</p>
-      </div>
+      </div> -->
     </div>
   </section>
 </template>
@@ -60,9 +56,9 @@ export default {
     }
     .product {
         @apply p-6 lg:px-8 flex flex-wrap gap-4 mx-auto justify-center border-2 border-green-500 bg-slate-50 rounded-lg mx-10;
-        .card {
-            @apply w-1/4 p-2 border-2 border-green-500 bg-white rounded-md;
-        }
+    //     .card {
+    //         @apply w-1/4 p-2 border-2 border-green-500 bg-white rounded-md;
+    //     }
     }
 }
 </style>
