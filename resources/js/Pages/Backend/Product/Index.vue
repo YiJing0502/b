@@ -1,7 +1,8 @@
 <!-- vue -->
 <script>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
 // optional的寫法
 export default {
   components: {
@@ -19,6 +20,23 @@ export default {
     },
     deleteProduct(id) {
       console.log(id);
+      Swal.fire({
+        title: '確定要刪除嗎？',
+        showDenyButton: true,
+        confirmButtonText: '刪除！',
+        denyButtonText: '取消',
+      }).then((result) => {
+        if (result.isConfirmed) {
+        // 去刪除，使用inertia的方法
+          router.visit(route('product.delete'), {
+            method: 'DELETE',
+            //  data是form表單裡面的body資料(input/name/value)，將id包在裡面，偷偷地送、驗證、刪除，其他人看不到這個id(不把id寫在路由，而是包在form表單裡面)
+            data: { id: id },
+            // { key: value}
+            // key: 自定義 value是fun傳參數給他
+          });
+        }
+      });
     },
   },
 };

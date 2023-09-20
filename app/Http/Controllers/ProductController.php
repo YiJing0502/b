@@ -51,7 +51,13 @@ class ProductController extends Controller
 
     }
     // 後台＿刪除產品
-    public function delete() {
+    public function delete(Request $request) {
+        $request->validate([
+            'id' => 'required|exists:products,id'
+        ]);
+        // dd($request->all());
+        $product = Product::find($request->id)->delete();
 
+        return back()->with(['message' => rtFormat($product)]);
     }
 }

@@ -1,8 +1,7 @@
 <!-- vue -->
 <script>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
-import { router } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
 
 // optional的寫法
@@ -13,6 +12,7 @@ export default {
   },
   data() {
     return {
+    //  物件
       formData: {
         name: '',
         price: '',

@@ -21,7 +21,7 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
         // 後台＿編輯產品頁_儲存編輯
         Route::put('/update/{id}', [ProductController::class, 'update'])->name('product.update');
         // 後台＿刪除產品
-        Route::delete('/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
+        Route::delete('/delete', [ProductController::class, 'delete'])->name('product.delete');
 
     });
 });
