@@ -70,6 +70,10 @@ export default {
         }
       });
     },
+    inputClass(item) {
+      if (!item) return '';
+      return 'border-[red]';
+    },
   },
 };
 </script>
@@ -77,12 +81,11 @@ export default {
 <!-- 頁面 -->
 <template>
   <Head title="Product-Edit" />
-
+  <!-- {{ $page }} -->
   <AuthenticatedLayout>
     <template #header>
       <div class="">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Product/Edit</h2>
-
       </div>
     </template>
     <section id="product-create" class="">
@@ -91,11 +94,15 @@ export default {
           {{ formData }}
           <label>
             商品名稱：
-            <input v-model="formData.name" type="text" name="name" required>
+            <input v-model="formData.name" type="text" name="name" :class="{ 'border-[red]': $page.props.errors['formData.name'] }" required>
+            <!-- 驗證＿名稱提醒 -->
+            <p class="error">{{ $page.props.errors['formData.name'] }}</p>
           </label>
           <label>
             商品價格：
-            <input v-model="formData.price" type="number" name="price" min="0" required>
+            <input v-model="formData.price" type="number" name="price" min="0" :class="inputClass($page.props.errors['formData.price'])" required>
+            <!-- 驗證＿價格提醒 -->
+            <p class="error">{{ $page.props.errors['formData.price'] }}</p>
           </label>
           <div class="flex gap-3">
             <label>
@@ -105,10 +112,14 @@ export default {
             <label>
               <input v-model="formData.public" type="radio" name="public" value="2">非公開
             </label>
+            <!-- 驗證＿公開提醒 -->
+            <p class="error">{{ $page.props.errors['formData.public'] }}</p>
           </div>
           <label>
             商品描述：
-            <input v-model="formData.desc" type="text" name="desc" required>
+            <input v-model="formData.desc" type="text" name="desc" :class="inputClass($page.props.errors['formData.desc'])" required>
+            <!-- 驗證＿描述提醒 -->
+            <p class="error">{{ $page.props.errors['formData.desc'] }}</p>
           </label>
           <div class="flex gap-3 mx-auto mt-2">
             <!-- 內部Link 外網a -->
@@ -129,6 +140,9 @@ export default {
     @apply px-12 py-12;
     .product-form {
         @apply flex flex-col gap-5;
+        .error {
+            @apply text-red-500;
+        }
     }
     .btn {
         @apply font-semibold text-xl text-gray-800 leading-tight border-black p-2 rounded-sm border-2;

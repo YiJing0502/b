@@ -61,6 +61,12 @@ class ProductController extends Controller
             'formData.public' => 'required|numeric',
             'formData.desc' => 'required|max:255',
             'id' => 'required|exists:products,id',
+        ], [
+            'formData.name.required' => '名稱必填',
+            'formData.price.required' => '價格必填',
+            'formData.public.required' => '狀態必填',
+            'formData.desc.required' => '描述必填',
+
         ]);
         $product = Product::find($request->id);
         // dd($request->formData['name']);
