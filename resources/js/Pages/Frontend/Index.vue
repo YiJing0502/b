@@ -27,6 +27,23 @@ export default {
       <Link :href="route('register')" class="btn-base">註冊</Link>
       <Link :href="route('dashboard')" class="btn-base">登入</Link>
     </div>
+    <div class="product">
+      <div v-for="item in response.rt_data ?? []" :key="item.id" class="card">
+        <p>商品名稱：{{ item.name }}</p>
+        <p>商品價格：{{ item.price }}</p>
+        <p>商品描述：{{ item.desc }}</p>
+      </div>
+      <div class="card">
+        <p>商品名稱：</p>
+        <p>商品價格：</p>
+        <p>商品描述：</p>
+      </div>
+      <div class="card">
+        <p>商品名稱：</p>
+        <p>商品價格：</p>
+        <p>商品描述：</p>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -40,6 +57,12 @@ export default {
 
     .btn-base {
         @apply p-1.5 border-2 rounded-md border-green-500 cursor-pointer;
+    }
+    .product {
+        @apply p-6 lg:px-8 flex flex-wrap gap-4 mx-auto justify-center border-2 border-green-500 bg-slate-50 rounded-lg mx-10;
+        .card {
+            @apply w-1/4 p-2 border-2 border-green-500 bg-white rounded-md;
+        }
     }
 }
 </style>
