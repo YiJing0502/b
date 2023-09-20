@@ -23,6 +23,7 @@ export default {
         price: this.response?.rt_data?.price ?? '',
         public: this.response?.rt_data?.public ?? '',
         desc: this.response?.rt_data?.desc ?? '',
+        image: this.response.rt_data?.image_path ?? '',
       },
     };
   },
@@ -74,6 +75,23 @@ export default {
       if (!item) return '';
       return 'border-[red]';
     },
+    uploadeImage(event) {
+      // 1拿掉呼叫的小括號，這邊寫event
+      // 2呼叫(event) => uploadeImage
+      //   console.log(event.target.files[0]);
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = () => {
+        console.log(reader.result);
+        this.formData.image = reader.result;
+        // 這一段為將字串塞進去formData.image
+        // 使用箭頭函示，this可以指向到外部，就可以在data中找到formData.image
+        // 使用一般fun，this指向 reader.onload
+      };
+      reader.onerror = (error) => {
+        console.log('Error: ', error);
+      };
+    },
   },
 };
 </script>
@@ -120,6 +138,17 @@ export default {
             <input v-model="formData.desc" type="text" name="desc" :class="inputClass($page.props.errors['formData.desc'])" required>
             <!-- 驗證＿描述提醒 -->
             <p class="error">{{ $page.props.errors['formData.desc'] }}</p>
+          </label>
+          <label>
+            商品照片：
+            <!--
+                使用者按的/實際觸動的，用fun轉base64-[file to base64 js]
+                觸動uplode...fun，將資料塞進去，並交由js將字串存起來
+            -->
+            <input type="file" name="image" @change="(event) => uploadeImage(event)">
+            <!-- <div v-if="!formData.image" class="my-image add-image">+</div> -->
+            <!-- <img :src="$page.props.response.rt_data.image_path" alt="" width="100" class="my-image"> -->
+            <img :src="formData.image" alt="">
           </label>
           <div class="flex gap-3 mx-auto mt-2">
             <!-- 內部Link 外網a -->

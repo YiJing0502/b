@@ -68,23 +68,36 @@ class ProductController extends Controller
             'formData.public' => 'required|numeric',
             'formData.desc' => 'required|max:255',
             'id' => 'required|exists:products,id',
+            'formData.image' => 'string',
         ], [
             'formData.name.required' => '名稱必填',
             'formData.price.required' => '價格必填',
             'formData.public.required' => '狀態必填',
             'formData.desc.required' => '描述必填',
-
         ]);
+        // dd($request->formData['image']);
+        // 找到哪一筆資料
         $product = Product::find($request->id);
-        // dd($request->formData['name']);
-        // formData是array
-
-        $product->update([
-            'name' => $request->formData['name'],
-            'price' => $request->formData['price'],
-            'public' => $request->formData['public'],
-            'desc' => $request->formData['desc'],
-         ]);
+        if ($request->formData['image']) {
+            // 刪除原圖片
+            $this->fileService->deleteUpload($product->image_path);
+            $product->update([
+                // formData是array
+                'name' => $request->formData['name'],
+                'price' => $request->formData['price'],
+                'public' => $request->formData['public'],
+                'desc' => $request->formData['desc'],
+                'image_path' => $this->fileService->base64Upload($request->formData['image'], 'product'),
+            ]);
+        } else {
+            $product->update([
+                // formData是array
+                'name' => $request->formData['name'],
+                'price' => $request->formData['price'],
+                'public' => $request->formData['public'],
+                'desc' => $request->formData['desc'],
+             ]);
+        }
         //  back誰發送的請求，送回去
         // with->laravel session flash
          return back()->with(['message'=> rtFormat($product)]);

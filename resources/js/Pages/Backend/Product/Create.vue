@@ -66,9 +66,6 @@ export default {
       reader.onerror = (error) => {
         console.log('Error: ', error);
       };
-
-    //   let file = document.querySelector('#files > input[type="file"]').files[0];
-    //   getBase64(file); // prints the base64 string
     },
   },
 };
@@ -144,7 +141,7 @@ export default {
         @apply font-semibold text-xl text-gray-800 leading-tight border-black p-2 rounded-sm border-2;
     }
     .my-image {
-        @apply border-2 w-[200px] aspect-[4/3] object-cover
+        @apply border-2 w-[200px] aspect-[4/3] object-cover mt-4;
     }
     .add-image {
         @apply flex justify-center items-center cursor-pointer text-[48px];
