@@ -18,7 +18,7 @@ export default {};
 }
 
 #main {
-    @apply h-[calc(100dvh-42px)];
+    @apply min-h-[calc(100dvh-42px)];
 }
 
 #header,

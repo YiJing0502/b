@@ -60,6 +60,10 @@ export default {
     <section id="product-show">
       <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <!-- 內部Link 外網a -->
+          <Link :href="route('home')">
+            <button type="button" class="font-semibold text-xl text-gray-800 leading-tight border-black p-2 rounded-sm border-2 mb-6 flex ml-auto">前往首頁</button>
+          </Link>
           <table class="w-full border-black border-2">
             <thead>
               <th>#</th>

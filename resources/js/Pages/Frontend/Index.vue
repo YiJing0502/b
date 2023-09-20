@@ -1,10 +1,13 @@
 <script>
+// 引入我們製作的組件
 import ProductCard from '@/Components/Card/ProductCard.vue';
 
 export default {
+  //  components:使用到哪些組件
   components: {
     ProductCard,
   },
+  //  props:寫來自後台傳過來的資料
   props: {
     response: {
       //  (必)
@@ -33,12 +36,15 @@ export default {
       <Link :href="route('dashboard')" class="btn-base">登入</Link>
     </div>
     <div class="product">
+      <!-- :product-info="item" 父層開渠道傳資料 item放資料？ -->
       <ProductCard v-for="item in response.rt_data ?? []" :key="item.id" :product-info="item"></ProductCard>
       <!-- <div v-for="item in response.rt_data ?? []" :key="item.id" class="card">
+        <img :src="item.image_path" class="w-full aspect-[4/3] object-cover" alt="">
         <p>商品名稱：{{ item.name }}</p>
         <p>商品價格：{{ item.price }}</p>
         <p>商品描述：{{ item.desc }}</p>
       </div> -->
+      <img src="" alt="" width="">
     </div>
   </section>
 </template>

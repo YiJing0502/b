@@ -54,14 +54,16 @@ export default {
       // 1拿掉呼叫的小括號，這邊寫event
       // 2呼叫(event) => uploadeImage
     //   console.log(event.target.files[0]);
-      const { formData } = this;
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
-      reader.onload = function () {
+      reader.onload = () => {
         console.log(reader.result);
-        formData.image = reader.result;
+        this.formData.image = reader.result;
+        // 這一段為將字串塞進去formData.image
+        // 使用箭頭函示，this可以指向到外部，就可以在data中找到formData.image
+        // 使用一般fun，this指向 reader.onload
       };
-      reader.onerror = function (error) {
+      reader.onerror = (error) => {
         console.log('Error: ', error);
       };
 
@@ -110,9 +112,10 @@ export default {
           </label>
           <label>
             商品照片：
-            <!-- 我們真正接收的 -->
-            <input v-model="formData.image" type="hidden">
-            <!-- 使用者按的，用fun轉base64-[file to base64 js] -->
+            <!--
+                使用者按的/實際觸動的，用fun轉base64-[file to base64 js]
+                觸動uplode...fun，將資料塞進去，並交由js將字串存起來
+            -->
             <input type="file" name="image" required @change="(event) => uploadeImage(event)">
             <div v-if="!formData.image" class="my-image add-image">+</div>
             <img v-else :src="formData.image" alt="" width="100" class="my-image">
