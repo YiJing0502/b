@@ -51,6 +51,11 @@ export default {
         },
       });
     },
+    logout() {
+      router.visit(route('logout'), {
+        method: 'post',
+      });
+    },
   },
 };
 </script>
@@ -59,11 +64,12 @@ export default {
   <section id="frontend-index">
     <h1 class="title">{{ title }}</h1>
     <!-- {{ $page.props.auth.user }} -->
-    <div class="flex justify-center gap-5 mb-5">
+    <div v-if="!$page.props.auth.user" class="flex justify-center gap-5 mb-5">
       <Link :href="route('register')" class="btn-base">註冊</Link>
       <Link :href="route('dashboard')" class="btn-base">登入</Link>
     </div>
-    <div class="flex justify-center gap-5 mb-5">
+    <div v-else class="flex justify-center gap-5 mb-5">
+      <button type="button" class="btn-base" @click="logout()">登出</button>
       <Link :href="route('shopCart')" class="btn-base">我的購物車</Link>
     </div>
     <div class="product">

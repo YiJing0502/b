@@ -9,6 +9,9 @@ import { Head } from '@inertiajs/vue3';
   <AuthenticatedLayout>
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+      <Link :href="route('home')">
+        <button type="button" class="font-semibold text-xl text-gray-800 leading-tight border-black p-2 rounded-sm border-2 mb-6 flex ml-auto">前往首頁</button>
+      </Link>
     </template>
 
     <div class="py-12">
