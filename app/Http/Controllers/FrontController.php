@@ -17,6 +17,12 @@ class FrontController extends Controller
             'response' => rtFormat($product),
         ]);
     }
+    public function product () {
+        $product = Product::orderBy('id', 'desc')->where('public', 1)->get();
+        return Inertia::render('Frontend/Product', [
+            'response' => rtFormat($product),
+        ]);
+    }
     public function addCart(Request $request) {
         $request->validate([
             'id' => 'required|exists:products,id',

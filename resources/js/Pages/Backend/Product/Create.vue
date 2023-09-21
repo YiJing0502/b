@@ -32,8 +32,8 @@ export default {
         // 新增完，停留，資料留存
         preserveState: true,
         onSuccess: (page) => {
-          console.log(page);
-          console.log(page.props.flash.message.rt_code);
+        //   console.log(page);
+        //   console.log(page.props.flash.message.rt_code);
           if (page.props.flash.message.rt_code === 1) {
             Swal.fire({
               title: '新增成功！',
@@ -57,15 +57,15 @@ export default {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => {
-        console.log(reader.result);
+        // console.log(reader.result);
         this.formData.image = reader.result;
         // 這一段為將字串塞進去formData.image
         // 使用箭頭函示，this可以指向到外部，就可以在data中找到formData.image
         // 使用一般fun，this指向 reader.onload
       };
-      reader.onerror = (error) => {
-        console.log('Error: ', error);
-      };
+    //   reader.onerror = (error) => {
+    //     console.log('Error: ', error);
+    //   };
     },
   },
 };

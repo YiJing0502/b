@@ -71,6 +71,7 @@ export default {
 
 <template>
   <div class="my-product">
+    <slot />
     <img :src="productInfo.image_path" class="aspect-[4/3] object-cover" alt="" width="50">
     <!-- 父層接受來自子層的資料 -->
     <p>商品名稱：{{ productInfo.name }}</p>
@@ -82,6 +83,7 @@ export default {
       <button type="button" class="my-buy-btn" @click="minus()">-</button>
     </div>
     <button type="button" class="my-buy-btn" @click="addCart()">加入購物車</button>
+    <slot name="msg" />
   </div>
 </template>
 

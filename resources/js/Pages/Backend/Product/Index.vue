@@ -20,7 +20,7 @@ export default {
       return num === 1 ? '公開' : '非公開';
     },
     deleteProduct(id) {
-      console.log(id);
+    //   console.log(id);
       Swal.fire({
         title: '確定要刪除嗎？',
         showDenyButton: true,
