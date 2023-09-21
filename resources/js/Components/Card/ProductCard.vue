@@ -76,7 +76,7 @@ export default {
     <p>商品名稱：{{ productInfo.name }}</p>
     <p>商品價格：{{ productInfo.price }}</p>
     <p>商品描述：{{ productInfo.desc }}</p>
-    <div class="flex justify-between items-center border-2 border-green-500">
+    <div class="flex justify-between items-center border-2 border-green-500 rounded-lg">
       <button type="button" class="my-buy-btn" @click="plus()">+</button>
       <input v-model="num" type="number" class="my-buy-btn" @change="inputNum()">
       <button type="button" class="my-buy-btn" @click="minus()">-</button>
@@ -92,7 +92,7 @@ export default {
         @apply w-1/4 p-2 border-2 border-green-500 bg-white rounded-md;
     }
     .my-buy-btn {
-        @apply p-4 bg-white rounded-md border-0;
+        @apply p-4 bg-white rounded-md border-0 focus:outline-none focus:ring-0 text-center;
     }
 }
 </style>
