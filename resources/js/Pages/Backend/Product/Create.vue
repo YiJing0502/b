@@ -19,6 +19,12 @@ export default {
         public: '',
         desc: '',
         image: '',
+        otherImage: [
+          {
+            id: 1,
+            image_path: '',
+          },
+        ],
       },
     };
   },
@@ -107,6 +113,7 @@ export default {
             商品描述：
             <input v-model="formData.desc" type="text" name="desc" required>
           </label>
+          <!-- 主要商品照片區 -->
           <label>
             主要商品照片：
             <!--
@@ -117,9 +124,15 @@ export default {
             <div v-if="!formData.image" class="my-image add-image">+</div>
             <img v-else :src="formData.image" alt="" width="100" class="my-image">
           </label>
-          <label>
-            其他商品照片
-          </label>
+          <!-- 其他商品照片區 -->
+          <div class="">
+            <span>其他商品照片：</span>
+            <div class="flex flex-wrap">
+              <label v-for="item in formData.otherImage" :key="item.id" class="my-image add-image">+
+                <input type="file" name="image" class="hidden" required @change="(event) => uploadeImage(event)">
+              </label>
+            </div>
+          </div>
           <div class="flex gap-3 mx-auto mt-2">
             <!-- 內部Link 外網a -->
             <Link :href="route('product.list')">
