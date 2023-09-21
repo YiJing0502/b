@@ -23,6 +23,29 @@ export default {
       },
     },
   },
+
+  data() {
+    return {
+      num: 1,
+    };
+  },
+  methods: {
+    plus() {
+      this.num++;
+    },
+    minus() {
+      const { num } = this;
+      if (num <= 1) return;
+      this.num--;
+    },
+    inputNum() {
+      const { num } = this;
+      if (num <= 1) {
+        this.num = 1;
+      }
+    },
+  },
+
 };
 </script>
 
@@ -33,7 +56,12 @@ export default {
     <p>商品名稱：{{ productInfo.name }}</p>
     <p>商品價格：{{ productInfo.price }}</p>
     <p>商品描述：{{ productInfo.desc }}</p>
-
+    <div class="flex justify-between items-center">
+      <button type="button" class="my-buy-btn" @click="plus()">+</button>
+      <input v-model="num" type="number" class="my-buy-btn" @change="inputNum()">
+      <button type="button" class="my-buy-btn" @click="minus()">-</button>
+    </div>
+    <button type="button" class="my-buy-btn">加入購物車</button>
   </div>
 </template>
 
@@ -42,6 +70,9 @@ export default {
     @apply p-6 lg:px-8 flex flex-wrap gap-4 mx-auto justify-center border-2 border-green-500 bg-slate-50 rounded-lg mx-10;
     .my-product-card {
         @apply w-1/4 p-2 border-2 border-green-500 bg-white rounded-md;
+    }
+    .my-buy-btn {
+        @apply p-4 border-2 border-green-500 bg-white rounded-md;
     }
 }
 </style>
