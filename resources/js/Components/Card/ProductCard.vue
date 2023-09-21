@@ -1,10 +1,13 @@
 <script>
+import { router } from '@inertiajs/vue3';
+
 export default {
   // 組件
   // 組件有結構上差異，建議在新增一個組件
   // props:寫來自於父層傳給子層的資料、接渠道來的東西
   // ex.提供給每張card要顯示的東西
   props: {
+    router,
     // 因為是組件的狀況所以寫清楚
     // 簡寫：
     // productInfo: Object,
@@ -44,6 +47,19 @@ export default {
         this.num = 1;
       }
     },
+    addCart() {
+      const { productInfo, num } = this;
+      //  交給組件送資料
+      router.visit(route('product.addCart'), {
+        method: 'post',
+        data: {
+          id: productInfo.id,
+          qty: num,
+        },
+        preserveStatus: true,
+      });
+
+    },
   },
 
 };
@@ -56,12 +72,12 @@ export default {
     <p>商品名稱：{{ productInfo.name }}</p>
     <p>商品價格：{{ productInfo.price }}</p>
     <p>商品描述：{{ productInfo.desc }}</p>
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center border-2 border-green-500">
       <button type="button" class="my-buy-btn" @click="plus()">+</button>
       <input v-model="num" type="number" class="my-buy-btn" @change="inputNum()">
       <button type="button" class="my-buy-btn" @click="minus()">-</button>
     </div>
-    <button type="button" class="my-buy-btn">加入購物車</button>
+    <button type="button" class="my-buy-btn" @click="addCart()">加入購物車</button>
   </div>
 </template>
 
@@ -72,7 +88,7 @@ export default {
         @apply w-1/4 p-2 border-2 border-green-500 bg-white rounded-md;
     }
     .my-buy-btn {
-        @apply p-4 border-2 border-green-500 bg-white rounded-md;
+        @apply p-4 bg-white rounded-md border-0;
     }
 }
 </style>
