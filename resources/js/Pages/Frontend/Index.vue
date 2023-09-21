@@ -1,6 +1,9 @@
 <script>
 // 引入我們製作的組件
 import ProductCard from '@/Components/Card/ProductCard.vue';
+// 方法二：交給引入此組件的頁面去處理
+import { router } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
 
 export default {
   //  components:使用到哪些組件
@@ -9,6 +12,8 @@ export default {
   },
   //  props:寫來自後台傳過來的資料
   props: {
+    // 方法二：交給引入此組件的頁面去處理
+    router,
     response: {
       //  (必)
       type: Object,
@@ -25,6 +30,28 @@ export default {
   },
   created() {
   },
+  methods: {
+    getDataFormCard(obj) {
+      console.log(obj);
+      // 方法二：交給引入此組件的頁面去處理
+      router.visit(route('product.addCart'), {
+        method: 'post',
+        data: {
+          id: obj.id,
+          qty: obj.qty,
+        },
+        preserveStatus: true,
+        onSuccess: ({ props }) => {
+          console.log(props);
+          if (props.flash.message.rt_code === 1) {
+            Swal.fire({
+              title: '新增成功！',
+            });
+          }
+        },
+      });
+    },
+  },
 };
 </script>
 
@@ -38,7 +65,7 @@ export default {
     <div class="product">
       <!-- :product-info="item" 父層開渠道傳資料 item放資料？ -->
       <!-- 頁面上的組件 -->
-      <ProductCard v-for="item in response.rt_data ?? []" :key="item.id" :product-info="item"></ProductCard>
+      <ProductCard v-for="item in response.rt_data ?? []" :key="item.id" :product-info="item" @add-cart="getDataFormCard"></ProductCard>
       <!-- 單一用的時候 -->
       <!-- <div v-for="item in response.rt_data ?? []" :key="item.id" class="card">
         <img :src="item.image_path" class="w-full aspect-[4/3] object-cover" alt="">

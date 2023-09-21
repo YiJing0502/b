@@ -23,7 +23,7 @@ class FrontController extends Controller
             'qty' => 'required|numeric|min:1',
         ]);
         // 找到符合使用者、產品的這一筆資料儲存在 $cart
-        dd($request->all());
+        // dd($request->all());
         $cart = Cart::where('product_id', $request->id)->where('user_id', $request->user()->id)->first();
         if($cart) {
             $cart->update([

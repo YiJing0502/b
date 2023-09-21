@@ -1,5 +1,6 @@
 <script>
-import { router } from '@inertiajs/vue3';
+//  方法一：交給組件送資料
+// import { router } from '@inertiajs/vue3';
 
 export default {
   // 組件
@@ -7,7 +8,9 @@ export default {
   // props:寫來自於父層傳給子層的資料、接渠道來的東西
   // ex.提供給每張card要顯示的東西
   props: {
-    router,
+    //  方法一：交給組件送資料
+
+    // router,
     // 因為是組件的狀況所以寫清楚
     // 簡寫：
     // productInfo: Object,
@@ -26,7 +29,7 @@ export default {
       },
     },
   },
-
+  emits: ['addCart'],
   data() {
     return {
       num: 1,
@@ -49,16 +52,17 @@ export default {
     },
     addCart() {
       const { productInfo, num } = this;
-      //  交給組件送資料
-      router.visit(route('product.addCart'), {
-        method: 'post',
-        data: {
-          id: productInfo.id,
-          qty: num,
-        },
-        preserveStatus: true,
-      });
-
+      //  方法一：交給組件送資料
+      //   router.visit(route('product.addCart'), {
+      //     method: 'post',
+      //     data: {
+      //       id: productInfo.id,
+      //       qty: num,
+      //     },
+      //     preserveStatus: true,
+      //   });
+      // 方法二：交給引入此組件的頁面去處理
+      this.$emit('addCart', { id: productInfo.id, qty: num });
     },
   },
 
