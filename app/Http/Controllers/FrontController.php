@@ -40,7 +40,7 @@ class FrontController extends Controller
             // $cart在外面原本是null，但在這邊重新賦值給它
             $cart = Cart::create([
                'product_id' => $request->id,
-               'user_id' => $request->user_id,
+               'user_id' => $request->user()->id,
                'qty' => $request->qty,
             ]);
         }

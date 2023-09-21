@@ -1,15 +1,11 @@
 <script>
-// 引入我們製作的組件
-import ProductCard from '@/Components/Card/ProductCard.vue';
 // 方法二：交給引入此組件的頁面去處理
 import { router } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
+// import route from 'vendor/tightenco/ziggy/src/js';
+// import { router } from '@inertiajs/vue3';
 
 export default {
-  //  components:使用到哪些組件
-  components: {
-    ProductCard,
-  },
   //  props:寫來自後台傳過來的資料
   props: {
     // 方法二：交給引入此組件的頁面去處理
@@ -51,6 +47,11 @@ export default {
         },
       });
     },
+    logout() {
+      router.visit(route('logout'), {
+        method: 'post',
+      });
+    },
   },
 };
 </script>
@@ -58,29 +59,13 @@ export default {
 <template>
   <section id="frontend-index">
     <h1 class="title">{{ title }}</h1>
-    <div class="flex justify-center gap-5 mb-5">
+    <div v-if="!$page.props.auth.user" class="flex justify-center gap-5 mb-5">
       <Link :href="route('register')" class="btn-base">註冊</Link>
       <Link :href="route('dashboard')" class="btn-base">登入</Link>
     </div>
-    <div class="product">
-      <!-- :product-info="item" 父層開渠道傳資料 item放資料？ -->
-      <!-- 頁面上的組件 -->
-      <ProductCard v-for="item in response.rt_data ?? []" :key="item.id" :product-info="item" @add-cart="getDataFormCard">
-        闆闆推薦
-        <template #msg>
-          <div>
-            <h6>免運！</h6>
-          </div>
-        </template>
-      </ProductCard>
-      <!-- 單一用的時候 -->
-      <!-- <div v-for="item in response.rt_data ?? []" :key="item.id" class="card">
-        <img :src="item.image_path" class="w-full aspect-[4/3] object-cover" alt="">
-        <p>商品名稱：{{ item.name }}</p>
-        <p>商品價格：{{ item.price }}</p>
-        <p>商品描述：{{ item.desc }}</p>
-      </div> -->
-      <img src="" alt="" width="">
+    <div v-else class="flex justify-center gap-5 mb-5">
+      <button type="button" class="btn-base" @click="logout()">登出</button>
+      <Link :href="route('product')" class="btn-base">查看商品</Link>
     </div>
   </section>
 </template>

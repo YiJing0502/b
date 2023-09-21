@@ -64,7 +64,7 @@ export default {
       <Link :href="route('dashboard')" class="btn-base">登入</Link>
     </div>
     <div class="flex justify-center gap-5 mb-5">
-      <Link :href="route('register')" class="btn-base">我的購物車</Link>
+      <Link :href="route('shopCart')" class="btn-base">我的購物車</Link>
     </div>
     <div class="product">
       <!-- :product-info="item" 父層開渠道傳資料 item放資料？ -->

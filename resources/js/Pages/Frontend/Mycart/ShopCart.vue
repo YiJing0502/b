@@ -2,6 +2,9 @@
 export default {
   components: {
   },
+  props: {
+    response: Object,
+  },
   data() {
     return {
       title: '我的購物車',
@@ -15,25 +18,27 @@ export default {
   <Head title="Product" />
   <section id="frontend-index">
     <h1 class="title">{{ title }}</h1>
+    <div class="flex justify-center gap-5 mb-5">
+      <Link :href="route('product')" class="btn-base">回到商品頁</Link>
+    </div>
+    <!-- {{ response }} -->
     <table class="w-full border-black border-2">
       <thead>
         <th>#</th>
         <th>商品圖片</th>
-        <th>建立時間</th>
         <th>產品名稱</th>
         <th>產品價格</th>
         <th>描述</th>
         <th>操作</th>
       </thead>
       <tbody>
-        <tr>
+        <tr v-for="item in response.rt_data" :key="item.id">
           <!-- :key 新增資料生成確認 -->
-          <td>1</td>
-          <td>我的圖片</td>
-          <td>建立時間</td>
-          <td>商品名稱</td>
-          <td>商品價格</td>
-          <td>描述</td>
+          <td>{{ item.id }}</td>
+          <td><img :src="item.product.image_path" alt="" width="50"></td>
+          <td>{{ item.product.name }}</td>
+          <td>{{ item.product.price }}</td>
+          <td>{{ item.product.desc }}</td>
           <td>
             <Link>
               <button type="button" class="mr-4">編輯</button>

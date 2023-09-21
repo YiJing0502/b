@@ -108,7 +108,7 @@ export default {
             <input v-model="formData.desc" type="text" name="desc" required>
           </label>
           <label>
-            商品照片：
+            主要商品照片：
             <!--
                 使用者按的/實際觸動的，用fun轉base64-[file to base64 js]
                 觸動uplode...fun，將資料塞進去，並交由js將字串存起來
@@ -116,6 +116,9 @@ export default {
             <input type="file" name="image" required @change="(event) => uploadeImage(event)">
             <div v-if="!formData.image" class="my-image add-image">+</div>
             <img v-else :src="formData.image" alt="" width="100" class="my-image">
+          </label>
+          <label>
+            其他商品照片
           </label>
           <div class="flex gap-3 mx-auto mt-2">
             <!-- 內部Link 外網a -->
