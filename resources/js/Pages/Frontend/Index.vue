@@ -37,7 +37,9 @@ export default {
     </div>
     <div class="product">
       <!-- :product-info="item" 父層開渠道傳資料 item放資料？ -->
+      <!-- 頁面上的組件 -->
       <ProductCard v-for="item in response.rt_data ?? []" :key="item.id" :product-info="item"></ProductCard>
+      <!-- 單一用的時候 -->
       <!-- <div v-for="item in response.rt_data ?? []" :key="item.id" class="card">
         <img :src="item.image_path" class="w-full aspect-[4/3] object-cover" alt="">
         <p>商品名稱：{{ item.name }}</p>

@@ -1,6 +1,8 @@
 <script>
 export default {
-  // props:寫來自於父層傳給子層的資料
+  // 組件
+  // 組件有結構上差異，建議在新增一個組件
+  // props:寫來自於父層傳給子層的資料、接渠道來的東西
   // ex.提供給每張card要顯示的東西
   props: {
     // 因為是組件的狀況所以寫清楚
@@ -10,7 +12,9 @@ export default {
     // 先申請要拿到什麼資料(可多個資料)
     productInfo: {
       type: Object,
+      // 有使用到組件需要資料
       required: true,
+      // 預設為...
       // default裡面放fun
       // 簡寫：
       // default: () => {{}},
