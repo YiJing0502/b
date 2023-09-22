@@ -81,6 +81,9 @@ export default {
         });
       };
     },
+    removeImage(id) {
+      console.log(id);
+    },
   },
 };
 </script>
@@ -136,12 +139,18 @@ export default {
           <div class="">
             <span>其他商品照片：</span>
             {{ formData.otherImage }}
-            <div class="flex flex-wrap">
-              <img v-for="item in formData.otherImage" :key="item.id" :src="item.image_path" alt="" class="my-image">
-              <label class="my-image add-image">+
-                <input type="file" name="image" class="hidden" required @change="(event) => uploadeOtherImage(event)">
-              </label>
+            <div class="flex flex-wrap gap-3">
+              <div v-for="item in formData.otherImage" :key="item.id" class="">
+                <!-- 負責新增照片 -->
+                <img :src="item.image_path" alt="" class="my-image">
+                <!-- x 刪除按鈕 -->
+                <button type="button" @click="removeImage(item.id)">刪除</button>
+              </div>
             </div>
+            <!-- 負責上傳照片 -->
+            <label class="my-image add-image">+
+              <input type="file" name="image" class="hidden" required @change="(event) => uploadeOtherImage(event)">
+            </label>
           </div>
           <div class="flex gap-3 mx-auto mt-2">
             <!-- 內部Link 外網a -->
