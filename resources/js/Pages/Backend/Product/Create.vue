@@ -19,12 +19,7 @@ export default {
         public: '',
         desc: '',
         image: '',
-        otherImage: [
-          {
-            id: 1,
-            image_path: '',
-          },
-        ],
+        otherImage: [],
       },
     };
   },
@@ -72,6 +67,19 @@ export default {
     //   reader.onerror = (error) => {
     //     console.log('Error: ', error);
     //   };
+    },
+    uploadeOtherImage(event) {
+      // 確認id的功用？ 他是第幾個屬於哪一個資料，放到相對應的資料(圖片上)
+      console.log(event);
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = () => {
+        this.formData.otherImage.push({
+          id: this.formData.otherImage.length + 1,
+          image_path: reader.result,
+          sort: this.formData.otherImage.length + 1,
+        });
+      };
     },
   },
 };
@@ -127,9 +135,11 @@ export default {
           <!-- 其他商品照片區 -->
           <div class="">
             <span>其他商品照片：</span>
+            {{ formData.otherImage }}
             <div class="flex flex-wrap">
-              <label v-for="item in formData.otherImage" :key="item.id" class="my-image add-image">+
-                <input type="file" name="image" class="hidden" required @change="(event) => uploadeImage(event)">
+              <img v-for="item in formData.otherImage" :key="item.id" :src="item.image_path" alt="" class="my-image">
+              <label class="my-image add-image">+
+                <input type="file" name="image" class="hidden" required @change="(event) => uploadeOtherImage(event)">
               </label>
             </div>
           </div>
