@@ -82,7 +82,7 @@ export default {
       };
     },
     removeImage(id) {
-      console.log(id);
+      this.formData.otherImage = this.formData.otherImage.filter((item) => item.id !== id);
     },
   },
 };
