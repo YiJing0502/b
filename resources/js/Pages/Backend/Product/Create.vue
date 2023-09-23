@@ -21,11 +21,20 @@ export default {
         image: '',
         otherImage: [],
       },
+      imageSize: 0,
+      otherImageSize: 0,
     };
+  },
+  computed: {
+    showTotalSize() {
+      const totalSize = parseFloat(this.imageSize + this.otherImageSize) / 1048576; // 计算总大小并转换为MB
+      return totalSize.toFixed(2); // 保留两位小数
+    },
   },
   methods: {
     submitData() {
       // 驗證
+      if (this.imageSize + this.otherImageSize > 3145728) return Swal.fire('圖片檔案過大，無法上傳');
       // [inertia] -method- to submit
       router.visit(route('product.store'), {
         method: 'post',
@@ -54,11 +63,12 @@ export default {
     uploadeImage(event) {
       // 1拿掉呼叫的小括號，這邊寫event
       // 2呼叫(event) => uploadeImage
-    //   console.log(event.target.files[0]);
+    //   console.log(event);
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => {
         // console.log(reader.result);
+        this.imageSize = event.target.files[0].size;
         this.formData.image = reader.result;
         // 這一段為將字串塞進去formData.image
         // 使用箭頭函示，this可以指向到外部，就可以在data中找到formData.image
@@ -70,21 +80,31 @@ export default {
     },
     uploadeOtherImage(event) {
       // 確認id的功用？ 他是第幾個屬於哪一個資料，放到相對應的資料(圖片上)
-      console.log(event);
+      // console.log(event);
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => {
         this.formData.otherImage.push({
-          id: this.formData.otherImage.length + 1,
+          id: Math.max(0, ...this.formData.otherImage.map(item => item.id)) + 1,
           image_path: reader.result,
-          sort: this.formData.otherImage.length + 1,
+          size: event.target.files[0].size,
         });
+        this.otherImageSize += event.target.files[0].size;
       };
     },
     removeImage(id) {
-      this.formData.otherImage = this.formData.otherImage.filter((item) => item.id !== id);
+      //  找到被刪除的圖片
+      const removedImage = this.formData.otherImage.find((item) => item.id === id);
+      //   console.log(removedImage.size);
+      if (removedImage) {
+        // 減掉被刪除的圖片隻大小
+        this.otherImageSize -= removedImage.size;
+        // 把接到資料的id當成排除的id，過濾掉被刪除的圖片
+        this.formData.otherImage = this.formData.otherImage.filter((item) => item.id !== id);
+      }
     },
   },
+
 };
 </script>
 
@@ -127,6 +147,8 @@ export default {
           <!-- 主要商品照片區 -->
           <label>
             主要商品照片：
+            <!-- (1 KB = 1024 bytes)
+            (3 MB * 1024 KB = 3072 KB) -->
             <!--
                 使用者按的/實際觸動的，用fun轉base64-[file to base64 js]
                 觸動uplode...fun，將資料塞進去，並交由js將字串存起來
@@ -152,6 +174,10 @@ export default {
               <input type="file" name="image" class="hidden" required @change="(event) => uploadeOtherImage(event)">
             </label>
           </div>
+          <p>主要商品照片檔案大小: {{ parseFloat(imageSize / 1048576).toFixed(2) }} MB</p>
+          <p>其他商品照片檔案大小: {{ parseFloat(otherImageSize / 1048576).toFixed(2) }} MB</p>
+          <p>總共檔案大小：{{ showTotalSize }} MB</p>
+          <!-- <p>還有 {{ 3072 - parseInt(imageSize / 1024) }} KB 的圖片容量可以上傳</p> -->
           <div class="flex gap-3 mx-auto mt-2">
             <!-- 內部Link 外網a -->
             <Link :href="route('product.list')">
