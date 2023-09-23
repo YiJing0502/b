@@ -28,6 +28,7 @@ class ProductController extends Controller
     }
     // 後台＿新增產品頁＿儲存新增
     public function store(Request $request) {
+        dd($request->all());
         $request->validate([
             'name' => 'required|max:255',
             'price' => 'required|min:0',
@@ -35,7 +36,6 @@ class ProductController extends Controller
             'desc' => 'required|max:255',
             'image' => 'required|string',
         ]);
-        // dd($request->all());
         $product=Product::create([
             'name' => $request->name,
             'price' => $request->price,

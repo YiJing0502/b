@@ -145,18 +145,20 @@ export default {
             <input v-model="formData.desc" type="text" name="desc" required>
           </label>
           <!-- 主要商品照片區 -->
-          <label>
-            主要商品照片：
-            <!-- (1 KB = 1024 bytes)
-            (3 MB * 1024 KB = 3072 KB) -->
-            <!--
+          <div class="relative w-[200px] aspect-[4/3]">
+            <label>
+              主要商品照片：
+              <!--
                 使用者按的/實際觸動的，用fun轉base64-[file to base64 js]
                 觸動uplode...fun，將資料塞進去，並交由js將字串存起來
             -->
-            <input type="file" name="image" required @change="(event) => uploadeImage(event)">
-            <div v-if="!formData.image" class="my-image add-image">+</div>
-            <img v-else :src="formData.image" alt="" width="100" class="my-image">
-          </label>
+              <div v-if="!formData.image" class="my-image add-image">+</div>
+              <img v-else :src="formData.image" alt="" width="100" class="my-image">
+              <input type="file" name="image" required @change="(event) => uploadeImage(event)" class="w-[10px] h-[10px] absolute top-1/2 left-1/2 translate-y-[10px] opacity-0">
+            </label>
+          </div>
+
+          <p>主要商品照片檔案大小: {{ parseFloat(imageSize / 1048576).toFixed(2) }} MB</p>
           <!-- 其他商品照片區 -->
           <div class="">
             <span>其他商品照片：</span>
@@ -174,7 +176,6 @@ export default {
               <input type="file" name="image" class="hidden" required @change="(event) => uploadeOtherImage(event)">
             </label>
           </div>
-          <p>主要商品照片檔案大小: {{ parseFloat(imageSize / 1048576).toFixed(2) }} MB</p>
           <p>其他商品照片檔案大小: {{ parseFloat(otherImageSize / 1048576).toFixed(2) }} MB</p>
           <p>總共檔案大小：{{ showTotalSize }} MB</p>
           <!-- <p>還有 {{ 3072 - parseInt(imageSize / 1024) }} KB 的圖片容量可以上傳</p> -->
@@ -202,7 +203,7 @@ export default {
         @apply font-semibold text-xl text-gray-800 leading-tight border-black p-2 rounded-sm border-2;
     }
     .my-image {
-        @apply border-2 w-[200px] aspect-[4/3] object-cover mt-4;
+        @apply border-2 w-[200px] aspect-[4/3] object-cover mt-4 cursor-pointer;
     }
     .add-image {
         @apply flex justify-center items-center cursor-pointer text-[48px];
