@@ -120,9 +120,16 @@ class ProductController extends Controller
         // dd($request->all());
         // 先取得資料來源
         $product = Product::find($request->id);
-        // 刪除圖片檔案(因為有檔案要先刪除，不然資料刪除後找不到圖片路徑)
+        // 刪除多圖的圖片、資料
+        if ($product) {
+            foreach ($product->productImage ?? [] as $value) {
+                $this->fileService->deleteUpload($value->image_path);
+                $value->delete();
+            }
+        }
+        // 刪除主要圖片檔案(因為有檔案要先刪除，不然資料刪除後找不到圖片路徑)
         $this->fileService->deleteUpload($product->image_path);
-        // 刪除資料
+        // 刪除主資料
         $product->delete();
         // 不渲染只傳資料
         return back()->with(['message' => rtFormat($product)]);
