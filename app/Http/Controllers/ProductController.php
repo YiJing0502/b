@@ -46,7 +46,7 @@ class ProductController extends Controller
             'desc' => $request->desc,
             'image_path' => $this->fileService->base64Upload($request->image, 'product'),
         ]);
-        foreach ($request->otherImage as $index => $value) {
+        foreach ($request->otherImage ?? [] as $index => $value) {
             ProductImage::create([
                 'product_id' => $product->id,
                 'image_path' => $this->fileService->base64Upload($value['image_path'], 'otherProduct'),
@@ -59,7 +59,7 @@ class ProductController extends Controller
     // 後台＿編輯產品頁
     public function edit($id) {
         // 找到特定一支產品
-        $product = Product::find($id);
+        $product = Product::with('productImage')->find($id);
         // 如果找不到
         if(!$product) {
             return redirect(route('product.list'))->with(['message' => rtFormat($id, 0, '查無資料')]);
@@ -78,18 +78,19 @@ class ProductController extends Controller
             'formData.public' => 'required|numeric',
             'formData.desc' => 'required|max:255',
             'id' => 'required|exists:products,id',
-            'formData.image' => 'string',
+            'formData.image' => 'required|string',
+            'otherImage.*.image_path' => 'required|string',
         ], [
             'formData.name.required' => '名稱必填',
             'formData.price.required' => '價格必填',
             'formData.public.required' => '狀態必填',
             'formData.desc.required' => '描述必填',
         ]);
-        // dd($request->formData['image']);
         // 找到哪一筆資料
         $product = Product::find($request->id);
-        if ($request->formData['image']) {
-            // 刪除原圖片
+        // dd($request->formData['otherImage'], $product);
+        if ($request->formData['image'] && $request->formData['image'] !== $product->image_path) {
+            // 刪除主圖片
             $this->fileService->deleteUpload($product->image_path);
             $product->update([
                 // formData是array
@@ -106,8 +107,38 @@ class ProductController extends Controller
                 'price' => $request->formData['price'],
                 'public' => $request->formData['public'],
                 'desc' => $request->formData['desc'],
-             ]);
+            ]);
         }
+        // 取得此筆產品其他圖片的資料
+        $otherProductImage = ProductImage::where('product_id', $product->id)->get();
+        // 處理多張圖片
+        if ($request->formData['otherImage']) {
+
+            foreach ($request->formData['otherImage'] ?? [] as $index => $value) {
+                $found = false;
+                foreach ($otherProductImage as $existingImage) {
+                    if ($existingImage->image_path === $value['image_path']) {
+                        $found = true;
+                        break;
+                    }
+                }
+                if (!$found) {
+                    $productImageToDelete = ProductImage::find($value['id']);
+                    if ($productImageToDelete) {
+                        $this->fileService->deleteUpload($productImageToDelete->image_path);
+                        $productImageToDelete->delete();
+                    }
+                    // 重新建立新的資料
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'image_path' => $this->fileService->base64Upload($value['image_path'], 'otherProduct'),
+                        'sort' => $index + 1,
+                    ]);
+                }
+            }
+        }
+
+
         //  back誰發送的請求，送回去
         // with->laravel session flash
          return back()->with(['message'=> rtFormat($product)]);

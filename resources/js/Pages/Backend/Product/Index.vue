@@ -12,7 +12,6 @@ export default {
   props: {
     // 有傳東西就要寫
     response: Object,
-    response2: Object,
   },
   mounted() {
     console.log(this.response);
