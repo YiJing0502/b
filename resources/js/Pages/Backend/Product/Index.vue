@@ -12,6 +12,10 @@ export default {
   props: {
     // 有傳東西就要寫
     response: Object,
+    response2: Object,
+  },
+  mounted() {
+    console.log(this.response);
   },
   methods: {
     // 顯示公開與非公開
@@ -79,7 +83,14 @@ export default {
               <tr v-for="(item, index) in response.rt_data" :key="item.id">
                 <!-- :key 新增資料生成確認 -->
                 <td>{{ index + 1 }}</td>
-                <td><img :src="item.image_path" alt="商品圖片" class="" width="100"></td>
+                <td class="text-left">
+                  <span>主要商品圖片</span>
+                  <img :src="item.image_path" alt="商品圖片" class="" width="100">
+                  <span v-if="item.productImage.length > 0">其他商品圖片</span>
+                  <div v-for="image in item.productImage" :key="image.id">
+                    <img :src="image.image_path" alt="其他商品圖片" width="100">
+                  </div>
+                </td>
                 <td>{{ item.timeFormat }}</td>
                 <td>{{ item.name }}</td>
                 <td>${{ item.price }}</td>

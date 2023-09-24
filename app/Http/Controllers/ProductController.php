@@ -16,7 +16,7 @@ class ProductController extends Controller
     }
     // 後台＿產品列表頁
     public function index() {
-        $product = Product::orderBy('id', 'desc')->get()->map(function ($item) {
+        $product = Product::orderBy('id', 'desc')->with(['productImage:product_id,image_path,sort'])->get()->map(function ($item) {
             // 資料多塞 timeFormat
             $item->timeFormat = $item->created_at->format('Y/m/d');
             return $item;
