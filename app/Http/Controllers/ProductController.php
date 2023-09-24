@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Services\FileService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -28,14 +29,16 @@ class ProductController extends Controller
     }
     // 後台＿新增產品頁＿儲存新增
     public function store(Request $request) {
-        dd($request->all());
         $request->validate([
             'name' => 'required|max:255',
             'price' => 'required|min:0',
             'public' => 'required|numeric',
             'desc' => 'required|max:255',
             'image' => 'required|string',
+            'otherImage.*.image_path' => 'string',
         ]);
+        // dd($request->otherImage);
+
         $product=Product::create([
             'name' => $request->name,
             'price' => $request->price,
@@ -43,6 +46,13 @@ class ProductController extends Controller
             'desc' => $request->desc,
             'image_path' => $this->fileService->base64Upload($request->image, 'product'),
         ]);
+        foreach ($request->otherImage as $index => $value) {
+            ProductImage::create([
+                'product_id' => $product->id,
+                'image_path' => $this->fileService->base64Upload($value['image_path'], 'otherProduct'),
+                'sort' => $index + 1,
+            ]);
+        }
 
         return back()->with(['message' => rtFormat($product)]);
     }
