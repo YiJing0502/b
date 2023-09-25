@@ -14,7 +14,7 @@ export default {
     response: Object,
   },
   mounted() {
-    console.log(this.response);
+    // console.log(this.response);
   },
   methods: {
     // 顯示公開與非公開

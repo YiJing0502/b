@@ -109,26 +109,46 @@ class ProductController extends Controller
                 'desc' => $request->formData['desc'],
             ]);
         }
-        // 取得此筆產品其他圖片的資料
+        // 從資料庫中取得與當前產品相關的其他產品圖片資料
+        // 並將它們存儲在 $otherProductImage 中
         $otherProductImage = ProductImage::where('product_id', $product->id)->get();
-        // 處理多張圖片
+        // 檢查是否有提交其他產品圖片資料
         if ($request->formData['otherImage']) {
-
-            foreach ($request->formData['otherImage'] ?? [] as $index => $value) {
+            // 遍歷每一張「已經存在」的其他產品圖片
+            foreach ($otherProductImage as $existingImage) {
+                // 假設圖片「未在新提交的圖片中」找到（$found 為 false）
                 $found = false;
+                // 遍歷「新提交」的圖片數據
+                foreach ($request->formData['otherImage'] ?? [] as $index => $value) {
+                    // 檢查是否有相同的圖片路徑
+                    if ($existingImage->image_path === $value['image_path']) {
+                        // 如果在「新提交的圖片中」找到了「相同的圖片路徑」，將 $found 設置為 true，並且跳出循環。
+                        $found = true;
+                        break;
+                    }
+                }
+                // 如果在「新提交的圖片中」未找到「相同的圖片路徑」（$found 為 false），則表示這張圖片需要「被刪除」
+                if (!$found) {
+                    // 刪除該圖片的文件，並且從資料庫中刪除該圖片記錄
+                    $this->fileService->deleteUpload($existingImage->image_path);
+                    $existingImage->delete();
+                }
+            }
+            // 遍歷每一張「新提交」的其他產品圖片
+            foreach ($request->formData['otherImage'] ?? [] as $index => $value) {
+                // 假設圖片「未在已經存在的其他產品圖片中」找到（$found 為 false）。
+                $found = false;
+                // 遍歷「已經存在」的其他產品圖片，檢查是否有相同的圖片路徑
                 foreach ($otherProductImage as $existingImage) {
+                    // 如果在「已經存在」的其他產品圖片中找到了相同的圖片路徑，將 $found 設置為 true，並且跳出循環
                     if ($existingImage->image_path === $value['image_path']) {
                         $found = true;
                         break;
                     }
                 }
+                // 如果在「已經存在」的其他產品圖片中未找到相同的圖片路徑（$found 為 false），則表示這是一個新的圖片。
                 if (!$found) {
-                    $productImageToDelete = ProductImage::find($value['id']);
-                    if ($productImageToDelete) {
-                        $this->fileService->deleteUpload($productImageToDelete->image_path);
-                        $productImageToDelete->delete();
-                    }
-                    // 重新建立新的資料
+                    // 創建一個新的圖片記錄，將圖片路徑添加到資料庫，並根據索引（$index + 1）設置其排序。
                     ProductImage::create([
                         'product_id' => $product->id,
                         'image_path' => $this->fileService->base64Upload($value['image_path'], 'otherProduct'),
@@ -136,9 +156,14 @@ class ProductController extends Controller
                     ]);
                 }
             }
+        } else {
+            // 如果沒有提交其他產品圖片資料，遍歷現有的每一張圖片
+            foreach ($otherProductImage as $existingImage) {
+                // 刪除該圖片的文件，並且從資料庫中刪除該圖片記錄
+                $this->fileService->deleteUpload($existingImage->image_path);
+                $existingImage->delete();
+            }
         }
-
-
         //  back誰發送的請求，送回去
         // with->laravel session flash
          return back()->with(['message'=> rtFormat($product)]);

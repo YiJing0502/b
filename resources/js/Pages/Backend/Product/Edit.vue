@@ -29,7 +29,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.response);
+    // console.log(this.response);
   },
   methods: {
     submitData(id) {
