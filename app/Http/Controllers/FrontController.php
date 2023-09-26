@@ -23,6 +23,9 @@ class FrontController extends Controller
             'response' => rtFormat($product),
         ]);
     }
+    public function menu() {
+        return Inertia::render('Frontend/Menu');
+    }
     public function addCart(Request $request) {
         $request->validate([
             'id' => 'required|exists:products,id',
