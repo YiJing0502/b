@@ -9,7 +9,7 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Backend/Dashboard');
     })->name('dashboard');
     // 產品
-    Route::prefix('/product')->group(function () {
+    Route::prefix('product')->group(function () {
         // 後台＿產品列表頁
         Route::get('/', [ProductController::class, 'index'])->name('product.list');
         // 後台＿新增產品頁

@@ -38,7 +38,7 @@ class ProductController extends Controller
             'otherImage.*.image_path' => 'string',
         ]);
         // dd($request->otherImage);
-
+        // 資料新增(與單張圖片)
         $product=Product::create([
             'name' => $request->name,
             'price' => $request->price,
